@@ -98,3 +98,43 @@ It is **not intended** for production telemetry or advanced analytics pipelines.
 var player_session := Debug.register("PlayerSystem", "PLAYER", "light_blue")
 player_session.info("Player spawned")
 player_session.warning("Low health detected", ["combat"])
+```
+
+### Custom Output
+```gdscript
+var file_output := FileDebugOutput.new("logs.txt")
+Debug.register_output(file_output)
+```
+### Priority Filtering
+
+You can set a minimum logging priority in your `DebugSettings` to filter out low-priority messages.  
+
+```gdscript
+# Only WARNING and above messages will be logged
+DebugSettings.min_priority = Debug.Priority.WARNING
+```
+
+### Use Cases
+
+#### Solo Developer Project
+- Provides organized logging for multiple subsystems (UI, AI, physics) without manual prefixes.  
+- Easily filters logs by priority to focus on relevant messages.  
+- Extensible to save logs to files or custom outputs for later inspection.  
+
+#### Small Studio Project
+- Each developer or system can have its own `DebugSession`.  
+- Centralized outputs ensure all team members see consistent logs.  
+- Tagging and filtering allow tracking cross-system interactions during testing.  
+
+---
+
+### Advantages Over Native Logging
+
+| Feature               | Debug System                                         | Native Logging (`print`, `push_warning`, `push_error`) |
+|-----------------------|-----------------------------------------------------|--------------------------------------------------------|
+| Structured Formatting | ✅ Color, timestamp, session, prefix               | ❌ Manual formatting required                          |
+| Multiple Outputs      | ✅ Console, file, network                           | ❌ Console only                                        |
+| Session-Based         | ✅ Per subsystem/developer                          | ❌ No session awareness                                 |
+| Priority Levels       | ✅ 6 levels (Debug → Critical)                     | ❌ Only warning/error                                   |
+| Tagging               | ✅ Programmatic tags                                 | ❌ Manual string encoding                               |
+| Extensibility         | ✅ Easy to add outputs                               | ❌ Requires rewriting code                               |

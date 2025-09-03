@@ -91,7 +91,7 @@ func register_output(debug_output: IDebugOutput) -> void:
 ## [param debug_session] The originating session. [br]
 ## [param priority] The priority level (see [enum Priority]). [br]
 func _log(msg: String, tags: Array[String] = [], debug_session: DebugSession = null, priority: Priority = Priority.DEBUG) -> void:
-    if not debug_session and settings and not settings.is_allowed_to_log(debug_session.user_name):
+    if not debug_session or not settings or (settings and not settings.is_allowed_to_log(debug_session.user_name)):
         return
     if priority < settings.min_priority:
         return
